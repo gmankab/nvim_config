@@ -2,8 +2,8 @@
 
 ### navigation
 
-- [arch distrobox guide](docs/distrobox_fedora.md) (recommended)
-- [fedora distrobox guide](docs/distrobox_arch.md)
+- [arch distrobox guide](https://github.com/gmankab/nvgmanka/blob/main/docs/distrobox_fedora.md) (recommended)
+- [fedora distrobox guide](https://github.com/gmankab/nvgmanka/blob/main/docs/distrobox_arch.md)
 
 
 ### docs
