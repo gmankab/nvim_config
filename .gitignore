@@ -1,4 +1,6 @@
-tags
-test.sh
+lazy-lock.json
 .luarc.json
+test.sh
+tags
 nvim
+
