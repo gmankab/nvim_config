@@ -1,6 +1,7 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 local actions = require "telescope.actions"
+local builtin = require('telescope.builtin')
 require('telescope').setup {
   defaults = {
     mappings = {
@@ -48,6 +49,13 @@ local function find_git_root()
   return git_root
 end
 
+local function telescope_live_grep_open_files()
+  require('telescope.builtin').live_grep {
+    grep_open_files = true,
+    prompt_title = 'Live Grep in Open Files',
+  }
+end
+
 local function live_grep_git_root()
   local git_root = find_git_root()
   if git_root then
@@ -57,50 +65,64 @@ local function live_grep_git_root()
   end
 end
 
-local function search_git_root()
-  local git_root = find_git_root()
-  if git_root then
-    require('telescope.builtin').live_grep {
-      search_dirs = { git_root },
-    }
-  end
-end
-
-local function search_in_proj()
+local function search_in_dir(dir)
   require('telescope.builtin').find_files {
-    prompt_title = 'Search in ~/proj',
-    cwd = vim.fn.expand('~/proj'),
+    prompt_title = 'Search in ' .. dir,
+    cwd = dir,
+    find_command = {'rg', '--files', '--hidden', '--glob', '!.git/*'},
   }
 end
 
--- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '<leader>/', function()
-  -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false,
-  })
-end, { desc = '[/] Fuzzily search in current buffer' })
 
-local function telescope_live_grep_open_files()
-  require('telescope.builtin').live_grep {
-    grep_open_files = true,
-    prompt_title = 'Live Grep in Open Files',
-  }
+function OpenTermInCurrentDir()
+    local bufname = vim.api.nvim_buf_get_name(0)
+    local dir = vim.fn.fnamemodify(bufname, ':p:h')
+    vim.cmd('cd ' .. dir)
+    vim.cmd('term')
 end
 
-vim.keymap.set('n', '<leader>ss', require('telescope.builtin').builtin, { desc = '[s]earch [s]elect telescope' })
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[s]earch [f]iles' })
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[s]earch [h]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[s]earch current [w]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[s]earch by [g]rep' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[s]earch [d]iagnostics' })
-vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[s]earch [r]esume' })
-vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = '[s]earch by grep in open files' })
-vim.keymap.set('n', '<leader>sp', search_in_proj, { desc = '[s]earch in ~/[p]roj' })
-vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_files, { desc = 'search [g]it [s] staget files' })
-vim.keymap.set('n', '<leader>gg', live_grep_git_root, { desc = 'search by [g]rep on git root' })
-vim.keymap.set('n', '<leader>gf', search_git_root, { desc = '[s]earch [g]it root [f]iles' })
+
+vim.keymap.set('n', '<leader>gs', builtin.git_files, { desc = 'git root find [s]taget files' })
+vim.keymap.set('n', '<leader>gg', live_grep_git_root, { desc = 'git root find by [g]rep' })
+vim.keymap.set('n', '<leader>f/', telescope_live_grep_open_files, { desc = 'find by grep in open files' })
+vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'find [r]esume' })
+vim.keymap.set('n', '<leader>ft', builtin.builtin, { desc = 'find [t]elescope select' })
+vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'find [b]uffers' })
+vim.keymap.set('n', '<leader>fl', builtin.oldfiles, { desc = 'find [l]atest opened files' })
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'find [h]elp' })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'find by [g]rep' })
+vim.keymap.set('n', '<leader>fc', builtin.find_files, { desc = 'find in [c]urrent work dir' })
+vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'find current [w]ord' })
+vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'find [d]iagnostics' })
+vim.keymap.set(
+  'n', '<leader>gf', function()
+    local git_root = find_git_root()
+    search_in_dir(git_root)
+  end, { desc = 'git root find all [f]iles' }
+)
+vim.keymap.set(
+  'n', '<leader>fh', function()
+    search_in_dir(vim.fn.expand('~'))
+  end, { desc = 'find in [h]ome' }
+)
+vim.keymap.set(
+  'n', '<leader>fp', function()
+    search_in_dir(vim.fn.expand('~/proj'))
+  end, { desc = 'find in ~/[p]roj' }
+)
+vim.keymap.set(
+  'n', '<leader>fi', function()
+    local dir = vim.fn.input('directory: ')
+    search_in_dir(dir)
+  end, { desc = 'find and [i]nput path to find in' }
+)
+vim.keymap.set(
+  'n', '<leader>ff', function()
+    -- You can pass additional configuration to telescope to change theme, layout, etc.
+    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+      winblend = 10,
+      previewer = false,
+    })
+  end, { desc = '[f]uzzily search in current buffer' }
+)
 
