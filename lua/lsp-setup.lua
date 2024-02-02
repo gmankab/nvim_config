@@ -15,10 +15,11 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+  local builtin = require('telescope.builtin')
+  vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { buffer = bufnr, desc = 'lsp [r]ename' })
+  vim.keymap.set('n', '<leader>ld', builtin.lsp_definitions, { buffer = bufnr, desc = 'lsp [d]efenition' })
+  vim.keymap.set('n', '<leader>lR', builtin.lsp_references, { buffer = bufnr, desc = 'lsp [R]eferences' })
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-
-  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
@@ -45,13 +46,12 @@ end
 
 -- document existing key chains
 require('which-key').register {
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+  ['<leader>f'] = { name = '[f]ind', _ = 'which_key_ignore' },
   ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
+  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+  ['<leader>h'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
