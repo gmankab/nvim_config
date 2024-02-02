@@ -1,21 +1,20 @@
 return {
   'max397574/better-escape.nvim',
-  version = "*",
+  version = '*',
   config = function ()
-    require("better_escape").setup {
-      mapping = {"jk"},
+    require('better_escape').setup {
+      mapping = {'jk'},
       timeout = vim.o.timeoutlen,
       clear_empty_lines = false,
-      keys = "<Esc>",
+      keys = '<Esc>',
       -- example
       -- keys = function()
       --   return vim.api.nvim_win_get_cursor(0)[2] > 1 and '<esc>l' or '<esc>'
       -- end,
     }
-
     -- autosave file
-    vim.api.nvim_create_autocmd({"InsertLeave", "TextChanged"}, {
-      pattern = "*",
+    vim.api.nvim_create_autocmd({'InsertLeave', 'TextChanged'}, {
+      pattern = '*',
       callback = function()
         vim.defer_fn(function()
           if vim.api.nvim_buf_get_option(0, 'buftype') == '' then
