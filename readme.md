@@ -3,8 +3,7 @@
 ### navigation
 
 - [main docs page](https://github.com/gmankab/nvgmanka)
-- [arch distrobox guide, recommended](https://github.com/gmankab/nvgmanka/blob/main/docs/distrobox_arch.md)
-- [fedora distrobox guide](https://github.com/gmankab/nvgmanka/blob/main/docs/distrobox_fedora.md)
+- [arch distrobox guide](https://github.com/gmankab/nvgmanka/blob/main/docs/distrobox_arch.md)
 - neovim config lua repo (you are here)
 
 ### docs
