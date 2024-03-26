@@ -8,13 +8,9 @@ require('telescope').setup {
       i = {
         ["<C-n>"] = actions.cycle_history_next,
         ["<C-p>"] = actions.cycle_history_prev,
-        ["<C-j>"] = actions.preview_scrolling_down,
-        ["<C-k>"] = actions.preview_scrolling_up,
       },
       n = {
         ["q"] = actions.close,
-        ["<C-j>"] = actions.preview_scrolling_down,
-        ["<C-k>"] = actions.preview_scrolling_up,
         ["n"] = actions.cycle_history_next,
         ["N"] = actions.cycle_history_prev,
       },

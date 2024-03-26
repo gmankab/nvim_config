@@ -17,19 +17,20 @@ local on_attach = function(_, bufnr)
 
   local builtin = require('telescope.builtin')
   vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { buffer = bufnr, desc = 'lsp [r]ename' })
-  vim.keymap.set('n', '<leader>lR', builtin.lsp_references, { buffer = bufnr, desc = 'lsp [R]eferences' })
+  vim.keymap.set('n', '<leader>le', builtin.lsp_references, { buffer = bufnr, desc = 'lsp r[e]ferences' })
   vim.keymap.set('n', '<leader>ld', builtin.lsp_definitions, { buffer = bufnr, desc = 'lsp [d]efenition' })
-  vim.keymap.set('n', '<leader>lD', vim.diagnostic.open_float, { buffer = bufnr, desc = 'lsp [D]iagnostics hover' })
+  vim.keymap.set('n', '<leader>lf', vim.diagnostic.open_float, { buffer = bufnr, desc = 'lsp [f]loat diagnostic' })
+  vim.keymap.set('n', '<leader>ls', vim.lsp.buf.signature_help, { buffer = bufnr, desc = 'lsp [s]ignature help' })
+  -- See `:help K` for why this keymap
+  vim.keymap.set('n', '<leader>lk', vim.lsp.buf.hover, { buffer = bufnr, desc = 'lsp [k]eywordprg' })
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = 'lsp keywordprg' })
+
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-
-  -- See `:help K` for why this keymap
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -47,13 +48,13 @@ end
 
 -- document existing key chains
 require('which-key').register {
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+  ['<leader>g'] = { name = '[g]it', _ = 'which_key_ignore' },
+  ['<leader>c'] = { name = '[c]ode', _ = 'which_key_ignore' },
   ['<leader>f'] = { name = '[f]ind', _ = 'which_key_ignore' },
-  ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  ['<leader>t'] = { name = '[t]terminal', _ = 'which_key_ignore' },
+  ['<leader>r'] = { name = '[r]ename', _ = 'which_key_ignore' },
+  ['<leader>h'] = { name = '[h]arpoon', _ = 'which_key_ignore' },
+  ['<leader>w'] = { name = '[w]orkspace', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
 -- required for visual <leader>hs (hunk stage) to work
