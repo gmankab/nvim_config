@@ -43,4 +43,8 @@ vim.o.termguicolors = true
 vim.g.neovide_hide_mouse_when_typing = true
 vim.o.guifont = "JetBrainsMono Nerd Font:h15"
 vim.g.copilot_proxy = 'localhost:2081'
+vim.o.tabstop = 4
+vim.o.expandtab = true
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
 
