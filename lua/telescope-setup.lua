@@ -2,6 +2,7 @@
 -- See `:help telescope` and `:help telescope.setup()`
 local actions = require "telescope.actions"
 local builtin = require('telescope.builtin')
+local neogit = require('neogit')
 require('telescope').setup {
   defaults = {
     mappings = {
@@ -78,8 +79,15 @@ function OpenTermInCurrentDir()
 end
 
 
+local function neogit_on_git_root()
+  local git_root =
+  neogit.open({ cwd = find_git_root() })
+end
+
+
 vim.keymap.set('n', '<leader>gs', builtin.git_files, { desc = 'git root find [s]taget files' })
 vim.keymap.set('n', '<leader>gg', live_grep_git_root, { desc = 'git root find by [g]rep' })
+vim.keymap.set('n', '<leader>gn', neogit_on_git_root, { desc = 'neogit on git root' })
 vim.keymap.set('n', '<leader>f/', telescope_live_grep_open_files, { desc = 'find by grep in open files' })
 vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'find [r]esume' })
 vim.keymap.set('n', '<leader>ft', builtin.builtin, { desc = 'find [t]elescope select' })
