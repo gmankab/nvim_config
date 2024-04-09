@@ -10,6 +10,19 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 
+local function terminal_latest()
+  vim.cmd.terminal()
+  vim.cmd.startinsert()
+  vim.defer_fn(
+    function()
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Up>', true, true, true), 'm', false)
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, true, true), 'm', false)
+    end,
+    200
+  )
+end
+
+
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -32,7 +45,7 @@ vim.keymap.set('i', '<C-k>', vim.cmd.stopinsert, { desc = 'to normal mode' })
 vim.keymap.set('t', '<C-k>', vim.cmd.stopinsert, { desc = 'to normal mode' })
 vim.keymap.set('v', '<C-k>', vim.cmd.stop, { desc = 'to normal mode' })
 vim.keymap.set('n', '<leader>tt', ':term<CR>i', { desc = 'open [t]erminal' })
-vim.keymap.set('n', '<leader>tl', ':term<CR>i<Up><CR>', { desc = '[l]atest command in terminal' })
+vim.keymap.set('n', '<leader>tl', terminal_latest, { desc = '[l]atest command in terminal' })
 vim.keymap.set('n', '<leader>n', vim.cmd.Ex, { desc = '[n]etrw files explorer' })
 vim.keymap.set('n', '<leader>e', function()
   local buffers = vim.api.nvim_list_bufs()

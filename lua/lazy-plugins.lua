@@ -5,12 +5,6 @@
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
-  {
-    "willothy/flatten.nvim",
-    config = true,
-    lazy = false,
-    priority = 1001,
-  },
   -- NOTE: First, some plugins that don't require any configuration
   -- Git related plugins
   'tpope/vim-fugitive',
