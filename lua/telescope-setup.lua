@@ -1,19 +1,20 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
-local actions = require "telescope.actions"
+local actions = require 'telescope.actions'
 local builtin = require('telescope.builtin')
 local neogit = require('neogit')
 require('telescope').setup {
   defaults = {
+    initial_mode = 'normal',
     mappings = {
       i = {
-        ["<C-n>"] = actions.cycle_history_next,
-        ["<C-p>"] = actions.cycle_history_prev,
+        ['<C-n>'] = actions.cycle_history_next,
+        ['<C-p>'] = actions.cycle_history_prev,
       },
       n = {
-        ["q"] = actions.close,
-        ["n"] = actions.cycle_history_next,
-        ["N"] = actions.cycle_history_prev,
+        ['q'] = actions.close,
+        ['n'] = actions.cycle_history_next,
+        ['N'] = actions.cycle_history_prev,
       },
     },
   },
@@ -80,7 +81,6 @@ end
 
 
 local function neogit_on_git_root()
-  local git_root =
   neogit.open({ cwd = find_git_root() })
 end
 
