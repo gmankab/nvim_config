@@ -10,13 +10,32 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 
+local function terminal_outside_distrobox()
+  local editor = vim.fn.systemlist('basename $SHELL')[1]
+  vim.cmd.terminal('distrobox-host-exec ' .. editor)
+  vim.cmd.startinsert()
+end
+
+
 local function terminal_latest()
   vim.cmd.terminal()
   vim.cmd.startinsert()
   vim.defer_fn(
     function()
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Up>', true, true, true), 'm', false)
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, true, true), 'm', false)
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Up><CR>', true, true, true), 'm', false)
+    end,
+    200
+  )
+end
+
+
+local function terminal_latest_proj()
+  local editor = vim.fn.systemlist('basename $SHELL')[1]
+  vim.cmd.terminal('distrobox-host-exec ' .. editor)
+  vim.cmd.startinsert()
+  vim.defer_fn(
+    function()
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('proj<Up><CR>', true, true, true), 'm', false)
     end,
     200
   )
@@ -45,7 +64,9 @@ vim.keymap.set('i', '<C-k>', vim.cmd.stopinsert, { desc = 'to normal mode' })
 vim.keymap.set('t', '<C-k>', vim.cmd.stopinsert, { desc = 'to normal mode' })
 vim.keymap.set('v', '<C-k>', vim.cmd.stop, { desc = 'to normal mode' })
 vim.keymap.set('n', '<leader>tt', ':term<CR>i', { desc = 'open [t]erminal' })
-vim.keymap.set('n', '<leader>tl', terminal_latest, { desc = '[l]atest command in terminal' })
+vim.keymap.set('n', '<leader>tl', terminal_latest, { desc = '[L]atest command in terminal' })
+vim.keymap.set('n', '<leader>to', terminal_outside_distrobox, { desc = 'terminal [o]utside distrobox' })
+vim.keymap.set('n', '<leader>tp', terminal_latest_proj, { desc = 'terminal latest that contains "proj" outside distrobox' })
 vim.keymap.set('n', '<leader>n', vim.cmd.Ex, { desc = '[n]etrw files explorer' })
 vim.keymap.set('n', '<leader>e', function()
   local buffers = vim.api.nvim_list_bufs()
