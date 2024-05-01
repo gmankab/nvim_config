@@ -20,7 +20,8 @@ local function terminal_latest()
   vim.cmd.startinsert()
   vim.defer_fn(
     function()
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Up><CR>', true, true, true), 'm', false)
+      local feedkeys = vim.api.nvim_replace_termcodes('<Up><CR>', true, true, true)
+      vim.api.nvim_feedkeys(feedkeys, 'm', false)
     end,
     200
   )
@@ -32,15 +33,11 @@ local function terminal_latest_proj()
   vim.cmd.startinsert()
   vim.defer_fn(
     function()
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('proj<Up><CR>', true, true, true), 'm', false)
+      local feedkeys = vim.api.nvim_replace_termcodes('proj<Up><CR>', true, true, true)
+      vim.api.nvim_feedkeys(feedkeys, 'm', false)
     end,
     200
   )
-end
-
-local function paste()
-  local feedkeys = vim.api.nvim_replace_termcodes('<C-r>+', true, false, true)
-  vim.api.nvim_feedkeys(feedkeys, 'i', true)
 end
 
 
