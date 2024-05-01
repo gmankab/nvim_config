@@ -9,6 +9,7 @@ local telescope = require('telescope')
 local get_picker = require('telescope.actions.state').get_current_picker
 local action_state = require('telescope.actions.state')
 local file_browser = telescope.extensions.file_browser.file_browser
+local fb_actions = telescope.extensions.file_browser.actions
 local home = os.getenv('HOME')
 
 
@@ -67,6 +68,17 @@ local function goto_git_root(prompt_bufnr)
   func(prompt_bufnr)
 end
 
+local feedkeys_up = vim.api.nvim_replace_termcodes('8<up>', true, true, true)
+local feedkeys_down = vim.api.nvim_replace_termcodes('8<down>', true, true, true)
+
+local function move_coursor_up()
+  vim.api.nvim_feedkeys(feedkeys_up, 'm', false)
+end
+
+local function move_coursor_down()
+  vim.api.nvim_feedkeys(feedkeys_down, 'm', false)
+end
+
 telescope.setup {
   defaults = {
     initial_mode = 'normal',
@@ -81,10 +93,13 @@ telescope.setup {
         ['q'] = actions.close,
         ['n'] = actions.cycle_history_next,
         ['N'] = actions.cycle_history_prev,
+        ['u'] = move_coursor_up,
+        ['d'] = move_coursor_down,
         ['p'] = paste,
         ['P'] = goto(home .. '/proj'),
         ['C'] = goto(home .. '/.config'),
-        ['H'] = goto(home),
+        ['H'] = fb_actions.goto_home_dir,
+        ['D'] = fb_actions.remove,
         ['G'] = goto_git_root,
       },
     },
