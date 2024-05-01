@@ -7,14 +7,15 @@ local themes = require('telescope.themes')
 local fb_utils = require('telescope._extensions.file_browser.utils')
 local telescope = require('telescope')
 local get_picker = require('telescope.actions.state').get_current_picker
-local action_state = require('telescope.actions.state')
+local actions_state = require('telescope.actions.state')
+local actions_set = require('telescope.actions.set')
 local file_browser = telescope.extensions.file_browser.file_browser
 local fb_actions = telescope.extensions.file_browser.actions
 local home = os.getenv('HOME')
 
 
 local function paste(prompt_bufnr)
-  local current_picker = action_state.get_current_picker(prompt_bufnr)
+  local current_picker = actions_state.get_current_picker(prompt_bufnr)
   local text = vim.fn.getreg('+'):gsub('\n', "")
   current_picker:set_prompt(text, false)
 end
@@ -68,15 +69,12 @@ local function goto_git_root(prompt_bufnr)
   func(prompt_bufnr)
 end
 
-local feedkeys_up = vim.api.nvim_replace_termcodes('8<up>', true, true, true)
-local feedkeys_down = vim.api.nvim_replace_termcodes('8<down>', true, true, true)
-
-local function move_coursor_up()
-  vim.api.nvim_feedkeys(feedkeys_up, 'm', false)
+local function move_coursor_up(prompt_bufnr)
+  actions_set.shift_selection(prompt_bufnr, -8)
 end
 
-local function move_coursor_down()
-  vim.api.nvim_feedkeys(feedkeys_down, 'm', false)
+local function move_coursor_down(prompt_bufnr)
+  actions_set.shift_selection(prompt_bufnr, 8)
 end
 
 telescope.setup {
@@ -171,6 +169,7 @@ local function explore_current_dir()
     path = vim.fn.expand('%:p:h'),
     grouped = true,
     display_stat = false,
+    respect_gitignore = false,
   })
 end
 
