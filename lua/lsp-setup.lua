@@ -15,12 +15,14 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
+  local lsp_document_symbols = require('telescope.builtin').lsp_document_symbols
   local builtin = require('telescope.builtin')
-  vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { buffer = bufnr, desc = 'lsp [r]ename' })
-  vim.keymap.set('n', '<leader>le', builtin.lsp_references, { buffer = bufnr, desc = 'lsp r[e]ferences' })
-  vim.keymap.set('n', '<leader>ld', builtin.lsp_definitions, { buffer = bufnr, desc = 'lsp [d]efenition' })
-  vim.keymap.set('n', '<leader>lf', vim.diagnostic.open_float, { buffer = bufnr, desc = 'lsp [f]loat diagnostic' })
-  vim.keymap.set('n', '<leader>ls', vim.lsp.buf.signature_help, { buffer = bufnr, desc = 'lsp [s]ignature help' })
+  vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename,         { buffer = bufnr, desc = 'lsp [r]ename' })
+  vim.keymap.set('n', '<leader>le', builtin.lsp_references,     { buffer = bufnr, desc = 'lsp r[e]ferences' })
+  vim.keymap.set('n', '<leader>ld', builtin.lsp_definitions,    { buffer = bufnr, desc = 'lsp [d]efenition' })
+  vim.keymap.set('n', '<leader>lf', vim.diagnostic.open_float,  { buffer = bufnr, desc = 'lsp [f]loat diagnostic' })
+  vim.keymap.set('n', '<leader>lS', vim.lsp.buf.signature_help, { buffer = bufnr, desc = 'lsp [s]ignature help' })
+  vim.keymap.set('n', '<leader>ls', lsp_document_symbols,       { buffer = bufnr, desc = '[D]ocument [S]ymbols'})
   -- See `:help K` for why this keymap
   vim.keymap.set('n', '<leader>lk', vim.lsp.buf.hover, { buffer = bufnr, desc = 'lsp [k]eywordprg' })
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = 'lsp keywordprg' })
@@ -29,7 +31,6 @@ local on_attach = function(_, bufnr)
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
   -- Lesser used LSP functionality
@@ -48,12 +49,14 @@ end
 
 -- document existing key chains
 require('which-key').register {
-  ['<leader>g'] = { name = '[g]it', _ = 'which_key_ignore' },
-  ['<leader>c'] = { name = '[c]ode', _ = 'which_key_ignore' },
-  ['<leader>f'] = { name = '[f]ind', _ = 'which_key_ignore' },
+  ['<leader>g'] = { name = '[g]it',       _ = 'which_key_ignore' },
+  ['<leader>l'] = { name = '[l]sp',      _ = 'which_key_ignore' },
+  ['<leader>c'] = { name = '[c]ode',      _ = 'which_key_ignore' },
+  ['<leader>f'] = { name = '[f]ind',      _ = 'which_key_ignore' },
+  ['<leader>r'] = { name = '[r]ename',    _ = 'which_key_ignore' },
+  ['<leader>h'] = { name = '[h]arpoon',   _ = 'which_key_ignore' },
+  ['<leader>E'] = { name = '[E]xplorer',  _ = 'which_key_ignore' },
   ['<leader>t'] = { name = '[t]terminal', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[r]ename', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = '[h]arpoon', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[w]orkspace', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode
