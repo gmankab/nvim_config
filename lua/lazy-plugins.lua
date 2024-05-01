@@ -75,6 +75,7 @@ require('lazy').setup({
   -- Fuzzy Finder (files, lsp, etc)
   {
     'nvim-telescope/telescope.nvim',
+    'nvim-tree/nvim-web-devicons',
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
