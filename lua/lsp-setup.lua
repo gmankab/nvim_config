@@ -54,8 +54,6 @@ require('which-key').register {
   ['<leader>c'] = { name = '[c]ode',      _ = 'which_key_ignore' },
   ['<leader>f'] = { name = '[f]ind',      _ = 'which_key_ignore' },
   ['<leader>r'] = { name = '[r]ename',    _ = 'which_key_ignore' },
-  ['<leader>E'] = { name = '[E]xplorer',  _ = 'which_key_ignore' },
-  ['<leader>t'] = { name = '[t]terminal', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[w]orkspace', _ = 'which_key_ignore' },
 }
 -- register which-key VISUAL mode

@@ -1,3 +1,5 @@
+local funcs = require('funcs')
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -9,31 +11,26 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-local function terminal_outside_distrobox()
-  local editor = vim.fn.systemlist('basename $SHELL')[1]
-  vim.cmd.terminal('distrobox-host-exec ' .. editor)
+
+local function terminal()
+  local in_distrobox = vim.fn.getenv("CONTAINER_ID") ~= vim.NIL
+  local shell = vim.fn.systemlist('basename $SHELL')[1]
+  local git_root = funcs.get_git_root()
+  vim.cmd('cd ' .. git_root)
+  if in_distrobox then
+    vim.cmd.terminal('distrobox-host-exec ' .. shell)
+  else
+    vim.cmd.terminal()
+  end
   vim.cmd.startinsert()
 end
 
+
 local function terminal_latest()
-  vim.cmd.terminal()
-  vim.cmd.startinsert()
+  terminal()
   vim.defer_fn(
     function()
       local feedkeys = vim.api.nvim_replace_termcodes('<Up><CR>', true, true, true)
-      vim.api.nvim_feedkeys(feedkeys, 'm', false)
-    end,
-    200
-  )
-end
-
-local function terminal_latest_proj()
-  local editor = vim.fn.systemlist('basename $SHELL')[1]
-  vim.cmd.terminal('distrobox-host-exec ' .. editor)
-  vim.cmd.startinsert()
-  vim.defer_fn(
-    function()
-      local feedkeys = vim.api.nvim_replace_termcodes('proj<Up><CR>', true, true, true)
       vim.api.nvim_feedkeys(feedkeys, 'm', false)
     end,
     200
@@ -66,8 +63,7 @@ vim.keymap.set('t', '<A-c>', '<C-\\><C-n>:bd!<CR>', { desc = 'close buffer' })
 vim.keymap.set('t', '<C-;>', '<C-\\><C-n>:',        { desc = 'open command mode' })
 vim.keymap.set('t', '<C-k>', vim.cmd.stopinsert,    { desc = 'to normal mode' })
 
-vim.keymap.set('n', '<leader>tt', ':term<CR>i',               { desc = 'open [t]erminal' })
-vim.keymap.set('n', '<leader>tl', terminal_latest,            { desc = '[L]atest command in terminal' })
-vim.keymap.set('n', '<leader>to', terminal_outside_distrobox, { desc = 'terminal [o]utside distrobox' })
-vim.keymap.set('n', '<leader>tp', terminal_latest_proj,       { desc = 'terminal latest that contains "proj" outside distrobox' })
+vim.keymap.set('n', '<leader>t', terminal,         { desc = '[t]erminal' })
+vim.keymap.set('n', '<leader>T', terminal_latest,  { desc = '[T]erminal latest command' })
+
 

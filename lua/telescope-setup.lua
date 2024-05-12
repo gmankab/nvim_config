@@ -12,6 +12,7 @@ local actions_set = require('telescope.actions.set')
 local file_browser = telescope.extensions.file_browser.file_browser
 local fb_actions = telescope.extensions.file_browser.actions
 local home = os.getenv('HOME')
+local funcs = require('funcs')
 
 
 local function paste(prompt_bufnr)
@@ -20,32 +21,6 @@ local function paste(prompt_bufnr)
   current_picker:set_prompt(text, false)
 end
 
-local function get_git_root_from_path(path)
-  local git_root = vim.fn.systemlist(
-    'git -C ' .. vim.fn.escape(
-      path,
-      ' '
-    ) .. ' rev-parse --show-toplevel'
-  )[1]
-  if vim.v.shell_error ~= 0 then
-    print 'not a git repository'
-    return path
-  end
-  return git_root
-end
-
-local function get_git_root()
-  local current_file = vim.api.nvim_buf_get_name(0)
-  if current_file == '' then
-    return get_git_root_from_path(
-      vim.fn.getcwd()
-    )
-  else
-    return get_git_root_from_path(
-      vim.fn.fnamemodify(current_file, ':h')
-    )
-  end
-end
 
 local function goto(path)
   return function(prompt_bufnr)
@@ -64,7 +39,7 @@ end
 
 local function goto_git_root(prompt_bufnr)
   local picker = get_picker(prompt_bufnr)
-  local git_root = get_git_root_from_path(picker.finder.path)
+  local git_root = funcs.get_git_root_from_path(picker.finder.path)
   local func = goto(git_root)
   func(prompt_bufnr)
 end
@@ -116,7 +91,7 @@ local function grep_open_files()
 end
 
 local function live_grep_git_root()
-  local git_root = get_git_root()
+  local git_root = funcs.get_git_root()
   if git_root then
     builtin.live_grep {
       search_dirs = { git_root },
@@ -132,19 +107,12 @@ local function find_in_dir(dir)
   }
 end
 
-function OpenTermInCurrentDir()
-  local bufname = vim.api.nvim_buf_get_name(0)
-  local dir = vim.fn.fnamemodify(bufname, ':p:h')
-  vim.cmd('cd ' .. dir)
-  vim.cmd('term')
-end
-
 local function neogit_on_git_root()
-  neogit.open({ cwd = get_git_root() })
+  neogit.open({ cwd = funcs.get_git_root() })
 end
 
 local function find_git_root_all_files()
-  find_in_dir(get_git_root())
+  find_in_dir(funcs.get_git_root())
 end
 
 local function find_in_home()
