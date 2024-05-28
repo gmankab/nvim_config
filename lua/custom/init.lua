@@ -1,0 +1,12 @@
+require('custom.binds.git')
+require('custom.binds.term')
+require('custom.binds.editor')
+require('custom.binds.cyrillic')
+require('custom.binds.whichkey')
+require('custom.binds.telescope.git')
+require('custom.binds.telescope.grep')
+require('custom.binds.telescope.find')
+require('custom.binds.telescope.other')
+require('custom.binds.telescope.window')
+require('custom.binds.lsp')
+
