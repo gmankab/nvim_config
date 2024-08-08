@@ -84,6 +84,8 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+require 'custom.setup.first'
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -91,7 +93,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -164,8 +166,10 @@ vim.opt.scrolloff = 10
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+--[[
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- ]]
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -278,6 +282,7 @@ require('lazy').setup({
       require('which-key').setup()
 
       -- Document existing key chains
+      --[[
       require('which-key').add {
         { '<leader>c', group = '[C]ode' },
         { '<leader>d', group = '[D]ocument' },
@@ -287,6 +292,7 @@ require('lazy').setup({
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       }
+      ]]
     end,
   },
 
@@ -297,6 +303,7 @@ require('lazy').setup({
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
+  --[[
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
@@ -341,7 +348,6 @@ require('lazy').setup({
       -- Telescope picker. This is really useful to discover what Telescope can
       -- do as well as how to actually do it!
 
-      -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
       require('telescope').setup {
         -- You can put your default mappings / updates / etc. in here
@@ -401,6 +407,7 @@ require('lazy').setup({
       end, { desc = '[S]earch [N]eovim files' })
     end,
   },
+  ]]
 
   -- LSP Plugins
   {
@@ -470,6 +477,7 @@ require('lazy').setup({
           --
           -- In this case, we create a function that lets us more easily define mappings specific
           -- for LSP related items. It sets the mode, buffer and description for us each time.
+          --[[
           local map = function(keys, func, desc)
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
@@ -510,6 +518,7 @@ require('lazy').setup({
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          ]]
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -544,11 +553,13 @@ require('lazy').setup({
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
+          --[[
           if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
           end
+          ]]
         end,
       })
 
@@ -631,6 +642,7 @@ require('lazy').setup({
 
   { -- Autoformat
     'stevearc/conform.nvim',
+    enabled = false,
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     keys = {
@@ -737,9 +749,9 @@ require('lazy').setup({
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
-          --['<CR>'] = cmp.mapping.confirm { select = true },
-          --['<Tab>'] = cmp.mapping.select_next_item(),
-          --['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          ['<CR>'] = cmp.mapping.confirm { select = true },
+          ['<Tab>'] = cmp.mapping.select_next_item(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -754,6 +766,7 @@ require('lazy').setup({
           --
           -- <c-l> will move you to the right of each of the expansion locations.
           -- <c-h> is similar, except moving you backwards.
+          --[[
           ['<C-l>'] = cmp.mapping(function()
             if luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
@@ -764,7 +777,7 @@ require('lazy').setup({
               luasnip.jump(-1)
             end
           end, { 'i', 's' }),
-
+          ]]
           -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
@@ -892,7 +905,7 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
@@ -915,5 +928,9 @@ require('lazy').setup({
   },
 })
 
+require 'custom.setup.autosave'
+require 'custom.setup.keymaps'
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
