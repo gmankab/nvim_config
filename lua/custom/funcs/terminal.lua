@@ -26,8 +26,16 @@ local function latest_command()
 end
 
 
+local function gitui()
+  local git_root = funcs_git_root.from_cwd()
+  vim.cmd('cd ' .. git_root)
+  vim.cmd.terminal('gitui')
+end
+
+
 return {
   latest_command = latest_command,
   open_term = open_term,
+  gitui = gitui,
 }
 
