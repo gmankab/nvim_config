@@ -30,6 +30,7 @@ local function gitui()
   local git_root = funcs_git_root.from_cwd()
   vim.cmd('cd ' .. git_root)
   vim.cmd.terminal('gitui')
+  vim.cmd.startinsert()
 end
 
 
