@@ -1,9 +1,10 @@
 local funcs_telescope = require 'custom.funcs.telescope'
 local funcs_filebrowser = require 'custom.funcs.filebrowser'
+local git_root = require 'custom.funcs.git_root'
 local actions = require 'telescope.actions'
 local telescope = require 'telescope'
 local fb_actions = telescope.extensions.file_browser.actions
-local home = os.getenv('HOME')
+local home = os.getenv 'HOME'
 
 
 local function config()
@@ -33,7 +34,7 @@ local function config()
           ['d'] = funcs_filebrowser.trash,
           ['C'] = funcs_filebrowser.go_to(home .. '/.config'),
           ['P'] = funcs_filebrowser.go_to(home .. '/proj'),
-          ['G'] = funcs_filebrowser.goto_git_root,
+          ['G'] = funcs_filebrowser.go_to(git_root.from_cwd()),
           ['p'] = funcs_filebrowser.paste,
         },
       },
@@ -49,9 +50,6 @@ local function config()
       }
     }
   }
-  pcall(telescope.load_extension, 'fzf')
-  pcall(telescope.load_extension, 'ui-select')
-  pcall(telescope.load_extension, 'file_browser')
 end
 
 
