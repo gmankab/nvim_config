@@ -1,12 +1,11 @@
-local telescope = require('telescope')
-local actions_state = require('telescope.actions.state')
-local actions_set = require('telescope.actions.set')
-local fb_utils = require('telescope._extensions.file_browser.utils')
-local fb_lsp = require "telescope._extensions.file_browser.lsp"
-local async = require "plenary.async"
-local Path = require "plenary.path"
+local telescope = require 'telescope'
+local actions_state = require 'telescope.actions.state'
+local actions_set = require 'telescope.actions.set'
+local fb_utils = require 'telescope._extensions.file_browser.utils'
+local fb_lsp = require 'telescope._extensions.file_browser.lsp'
+local async = require 'plenary.async'
+local Path = require 'plenary.path'
 local file_browser = telescope.extensions.file_browser.file_browser
-local fb_actions = telescope.extensions.file_browser.actions
 
 
 local function get_confirmation(opts, callback)
