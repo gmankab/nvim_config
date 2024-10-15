@@ -95,7 +95,7 @@ local function trash(prompt_bufnr)
 end
 
 
-local function goto(path)
+local function go_to(path)
   return function(prompt_bufnr)
     local picker = actions_state.get_current_picker(prompt_bufnr)
     picker.finder.path = path
@@ -141,6 +141,6 @@ return {
   move_coursor = move_coursor,
   trash = trash,
   paste = paste,
-  goto = goto,
+  go_to = go_to,
 }
 
