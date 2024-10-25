@@ -1,12 +1,12 @@
 local funcs_git_root = require 'custom.funcs.git_root'
 
 local function open_term()
-  local in_distrobox = vim.fn.getenv("CONTAINER_ID") ~= vim.NIL
-  local shell = vim.fn.systemlist('basename $SHELL')[1]
+  local in_container = vim.fn.getenv('container') ~= vim.NIL
+  local is_hs_installed = vim.fn.executable('host-spawn') == 1
   local git_root = funcs_git_root.from_cwd()
   vim.cmd('cd ' .. git_root)
-  if in_distrobox then
-    vim.cmd.terminal('distrobox-host-exec ' .. shell)
+  if in_container and is_hs_installed then
+    vim.cmd.terminal('host-spawn')
   else
     vim.cmd.terminal()
   end
