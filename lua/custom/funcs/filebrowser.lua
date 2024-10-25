@@ -127,10 +127,6 @@ end
 local function filebrowser_cwd()
   file_browser({
     path = vim.fn.expand('%:p:h'),
-    grouped = true,
-    display_stat = false,
-    respect_gitignore = false,
-    preview = { ls_short = true }
   })
 end
 

@@ -44,9 +44,12 @@ local function config()
         require('telescope.themes').get_dropdown(),
       },
       file_browser = {
-        preview = {
-          ls_short = true,
-        }
+        grouped = true,
+        auto_depth = true,
+        hijack_netrw = true,
+        respect_gitignore = false,
+        display_stat = { date = true, size = true },
+        preview = { ls_short = true },
       }
     }
   }
