@@ -44,6 +44,7 @@ local function config()
         require('telescope.themes').get_dropdown(),
       },
       file_browser = {
+        hidden=true,
         grouped = true,
         auto_depth = true,
         hijack_netrw = true,
