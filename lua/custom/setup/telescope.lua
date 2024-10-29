@@ -46,7 +46,6 @@ local function config()
       file_browser = {
         hidden=true,
         grouped = true,
-        auto_depth = true,
         hijack_netrw = true,
         respect_gitignore = false,
         display_stat = { date = true, size = true },
