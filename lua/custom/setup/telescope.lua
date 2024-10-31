@@ -8,6 +8,12 @@ local home = os.getenv 'HOME'
 
 
 local function config()
+  local to_search = home .. '/files/proj'
+  local repo_config = {
+    file_ignore_patterns = { '%.local/', '%.cache/', '%.cargo/', '%.flatpak%-builder' },
+    search_dirs = {to_search},
+    cwd = to_search,
+  }
   telescope.setup {
     defaults = {
       preview = {
@@ -50,10 +56,13 @@ local function config()
         respect_gitignore = false,
         display_stat = { date = true, size = true },
         preview = { ls_short = true },
+      },
+      repo = {
+        list = repo_config,
+        cached_list = repo_config,
       }
     }
   }
-  pcall(telescope.load_extension, 'file_browser')
 end
 
 
