@@ -1,12 +1,15 @@
-local filebrowser = require 'custom.funcs.filebrowser'
-local telescope = require 'custom.funcs.telescope'
+local telescope = require 'telescope'
+local f_filebrowser = require 'custom.funcs.filebrowser'
+local f_telescope = require 'custom.funcs.telescope'
 local terminal = require 'custom.funcs.terminal'
 local builtin = require 'telescope.builtin'
 local which_key = require 'which-key'
+local repo = telescope.extensions.repo.cached_list
 
 
 -- which key
 which_key.add {
+  { '<leader>sr', group = 'telescope repo',  icon = '󰊢' },
   { '<leader>s', group = 'telescope search', icon = '' },
   { '<leader>l', group = 'lsp',              icon = '' },
   { '<leader>t', desc =  'terminal',         icon = '' },
@@ -21,27 +24,29 @@ vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action,    { desc = 'code act
 vim.keymap.set('n', '<leader>ld', vim.lsp.buf.declaration,    { desc = 'declaration' })
 vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename,         { desc = 'rename' })
 -- telescope
-vim.keymap.set('n', '<leader>ss', telescope.find_git_root, { desc = 'files' })
-vim.keymap.set('n', '<leader>sg', telescope.grep_git_root, { desc = 'grep' })
-vim.keymap.set('n', '<leader>sd', builtin.lsp_definitions, { desc = 'definitions' })
-vim.keymap.set('n', '<leader>sr', builtin.lsp_references,  { desc = 'references' })
-vim.keymap.set('n', '<leader>so', builtin.oldfiles,        { desc = 'oldfiles' })
-vim.keymap.set('n', '<leader>sa', builtin.buffers,         { desc = 'buffers' })
-vim.keymap.set('n', '<leader>st', builtin.builtin,         { desc = 'builtin' })
-vim.keymap.set('n', '<leader>se', builtin.resume,          { desc = 'resume' })
+vim.keymap.set('n', '<leader>sf', f_telescope.find_git_root, { desc = 'files' })
+vim.keymap.set('n', '<leader>sg', f_telescope.grep_git_root, { desc = 'grep' })
+vim.keymap.set('n', '<leader>sr', f_telescope.repo,          { desc = 'repo' })
+vim.keymap.set('n', '<leader>sd', builtin.lsp_definitions,   { desc = 'definitions' })
+vim.keymap.set('n', '<leader>se', builtin.lsp_references,    { desc = 'references' })
+vim.keymap.set('n', '<leader>so', builtin.oldfiles,          { desc = 'oldfiles' })
+vim.keymap.set('n', '<leader>sa', builtin.buffers,           { desc = 'buffers' })
+vim.keymap.set('n', '<leader>st', builtin.builtin,           { desc = 'builtin' })
+vim.keymap.set('n', '<leader>ss', builtin.resume,            { desc = 'resume' })
 -- terminal
 vim.keymap.set('n', '<leader>t', terminal.open_term,    { desc = 'terminal' })
+vim.keymap.set('t', '<C-e>',     vim.cmd.stopinsert,    { desc = 'to normal mode' })
 vim.keymap.set('t', '<C-q>',     '<C-\\><C-n>:qa!<CR>', { desc = 'quit' })
 vim.keymap.set('t', '<A-c>',     '<C-\\><C-n>:bd!<CR>', { desc = 'close buffer' })
+vim.keymap.set('t', '<C-v>',     '<C-\\><C-n>pi',       { desc = 'paste' })
 vim.keymap.set('t', '<C-;>',     '<C-\\><C-n>:',        { desc = 'open command mode' })
-vim.keymap.set('t', '<C-e>',     vim.cmd.stopinsert,    { desc = 'to normal mode' })
 -- editor
-vim.keymap.set({ 'v', 'i' },      '<C-e>', '<C-[>',  { desc = 'to normal mode' })
-vim.keymap.set({ 'v', 'i', 'c' }, '<C-v>', '<C-r>+', { desc = 'paste' })
-vim.keymap.set('n', '<C-v>',      'p',               { desc = 'paste' })
-vim.keymap.set('n', '<C-q>',      ':qa!<CR>',        { desc = 'quit' })
-vim.keymap.set('n', '<A-c>',      ':bd!<CR>',        { desc = 'close buffer' })
-vim.keymap.set('v', '<C-c>',      'y',               { desc = 'copy' })
+vim.keymap.set({ 'v', 'i' },     '<C-e>', '<C-[>',  { desc = 'to normal mode' })
+vim.keymap.set({ 'v', 'i', 'c'}, '<C-v>', '<C-r>+', { desc = 'paste' })
+vim.keymap.set('n', '<C-v>',     'p',               { desc = 'paste' })
+vim.keymap.set('v', '<C-c>',     'y',               { desc = 'copy' })
+vim.keymap.set('n', '<C-q>',     ':qa!<CR>',        { desc = 'quit' })
+vim.keymap.set('n', '<A-c>',     ':bd!<CR>',        { desc = 'close buffer' })
 -- colemak
 vim.keymap.set({ 'n', 'v' }, '<A-e>', 'e',       { desc = 'go to end of next word' })
 vim.keymap.set({ 'n', 'v' }, '<A-i>', '<Right>', { desc = 'right' })
@@ -58,7 +63,7 @@ vim.keymap.set('n', 'н',     '<Down>', { desc = 'down' })
 vim.keymap.set('n', 'е',     '<Up>',   { desc = 'up' })
 vim.keymap.set('n', 'и',     vim.cmd.startinsert, { desc = 'input' })
 -- other
-vim.keymap.set('n', '<leader>e', filebrowser.filebrowser_cwd, { desc = 'file explorer' })
+vim.keymap.set('n', '<leader>e', f_filebrowser.filebrowser_cwd, { desc = 'file explorer' })
 vim.keymap.set('n', '<leader>g', terminal.gitui, { desc = 'lazygit' })
 
 
