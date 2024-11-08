@@ -1,15 +1,13 @@
-local telescope = require 'telescope'
 local f_filebrowser = require 'custom.funcs.filebrowser'
 local f_telescope = require 'custom.funcs.telescope'
 local terminal = require 'custom.funcs.terminal'
 local builtin = require 'telescope.builtin'
 local which_key = require 'which-key'
-local repo = telescope.extensions.repo.cached_list
 
 
 -- which key
 which_key.add {
-  { '<leader>sr', group = 'telescope repo',  icon = '󰊢' },
+  { '<leader>sr', group = 'repo',  icon = '󰊢' },
   { '<leader>s', group = 'telescope search', icon = '' },
   { '<leader>l', group = 'lsp',              icon = '' },
   { '<leader>t', desc =  'terminal',         icon = '' },
