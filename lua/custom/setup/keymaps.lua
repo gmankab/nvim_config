@@ -63,7 +63,8 @@ vim.keymap.set('n', 'и',     vim.cmd.startinsert, { desc = 'input' })
 -- other
 vim.keymap.set('n', '<leader>e', f_filebrowser.filebrowser_cwd, { desc = 'file explorer' })
 vim.keymap.set('n', '<leader>g', terminal.gitui, { desc = 'lazygit' })
-
-
+-- word jumping tweaks
+vim.opt.iskeyword = vim.opt.iskeyword - { "_", "-" }
+-- stop insert
 vim.cmd.stopinsert()
 
