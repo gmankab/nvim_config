@@ -6,7 +6,6 @@ local function from_path(path)
     ) .. ' rev-parse --show-toplevel'
   )[1]
   if vim.v.shell_error ~= 0 then
-    print 'not a git repository'
     return path
   end
   return git_root
