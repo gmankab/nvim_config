@@ -624,6 +624,8 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'lua-language-server', -- Lua Language server
         'stylua', -- Used to format Lua code
+        'yaml-language-server', -- YAML schemas/validation
+        'gh-actions-language-server', -- GitHub Actions workflow validation
         -- You can add other tools here that you want Mason to install
       })
 
