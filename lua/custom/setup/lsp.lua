@@ -9,6 +9,16 @@ vim.lsp.config('ty', {
     },
   },
 })
+vim.lsp.config('yamlls', {
+  settings = {
+    yaml = {
+      schemaStore = { enable = false, url = '' },
+      schemas = {
+        ['https://www.schemastore.org/any.json'] = { '**/*.yml', '**/*.yaml' },
+      },
+    },
+  },
+})
 local function lsp_report()
   vim.wait(
     3000,
