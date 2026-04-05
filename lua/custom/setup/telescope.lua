@@ -8,7 +8,7 @@ local home = os.getenv 'HOME'
 
 
 local function config()
-  local to_search = home .. '/files/proj'
+  local to_search = '/mnt/c/proj'
   local repo_config = {
     file_ignore_patterns = { '%.local/', '%.cache/', '%.cargo/', '%.flatpak%-builder' },
     search_dirs = {to_search},
@@ -23,8 +23,8 @@ local function config()
       hijack_netrw = true,
       mappings = {
         i = {
-          ['<C-n>'] = actions.cycle_history_next,
-          ['<C-p>'] = actions.cycle_history_prev,
+          ['<C-j>'] = actions.cycle_history_next,
+          ['<C-k>'] = actions.cycle_history_prev,
           ['<C-v>'] = funcs_telescope.paste,
         },
         n = {
