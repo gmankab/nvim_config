@@ -31,6 +31,6 @@ local function lsp_report()
 end
 
 vim.api.nvim_create_user_command('LspReport', lsp_report, {})
-for _, server in ipairs { 'ty', 'ruff', 'gh_actions_ls', 'yamlls' } do
+for _, server in ipairs { 'ty', 'ruff', 'gh_actions_ls', 'yamlls', 'typos_lsp' } do
   vim.lsp.enable(server)
 end
