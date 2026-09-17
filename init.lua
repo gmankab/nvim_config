@@ -694,6 +694,7 @@ do
       },
     },
   }
+  servers = vim.tbl_extend('error', servers, require 'custom.setup.lsp')
 
   vim.pack.add {
     gh 'neovim/nvim-lspconfig',
