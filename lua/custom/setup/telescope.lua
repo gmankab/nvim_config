@@ -19,6 +19,7 @@ local function config()
       preview = {
         ls_short = true,
       },
+      path_display = { 'truncate' },
       initial_mode = 'normal',
       hijack_netrw = true,
       mappings = {
